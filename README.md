@@ -1,7 +1,20 @@
-# sw_dbs
-Semester work on the subject of Database systems
-
 # Job title: Service for parsing vacancies for IT specialists 
+
+## 📃 Content
+
+- Description of semester work ✅
+- Conceptual schema (:construction: in process)
+- Loop discussion (:construction: in process)
+- Relational schema (:construction: in process)
+- Create script (:construction: in process)
+- Insert script (:construction: in process)
+- Queries (:construction: in process)
+- Categories covered by queries (:construction: in process)
+    - Category	
+    - Description	
+    - Covered by
+- Conclusion (:construction: in process)
+- References (:construction: in process)
 
 # Description
 
