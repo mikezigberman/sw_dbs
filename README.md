@@ -3,7 +3,7 @@
 ## 📃 Content
 
 - Description of semester work ✅
-- Conceptual schema (:construction: in process)
+- Conceptual schema ✅
 - Loop discussion (:construction: in process)
 - Relational schema (:construction: in process)
 - Create script (:construction: in process)
@@ -46,3 +46,7 @@ As a result, the service for parsing vacancies for IT specialists is an importan
 14. Additional information (contact person, links to additional information about the vacancy).
 
 Each of these key fields will be used to search for and filter vacancies, as well as to generate reports and analyze job market data. For example, the user can select the desired position and city to find a suitable vacancy. Alternatively, the user can analyze candidate requirements data and highlight the skills and technologies that are most in demand.
+
+# Conceptual schema
+
+<img width="977" alt="Screenshot 2023-03-05 at 20 01 51" src="https://user-images.githubusercontent.com/30218257/222980471-4bf9e8e2-72e5-434d-9ad3-ace35863ae11.png">
