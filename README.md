@@ -100,7 +100,8 @@ Suppose a company cannot operate without a team(s) (read above) and also the com
 
 # Conceptual schema
 
-<img width="977" alt="Screenshot 2023-03-05 at 20 01 51" src="https://user-images.githubusercontent.com/30218257/222980471-4bf9e8e2-72e5-434d-9ad3-ace35863ae11.png">
+<img width="1015" alt="Screenshot 2023-03-10 at 20 55 45" src="https://user-images.githubusercontent.com/30218257/224415217-db59c443-1f52-4aa9-9424-157409312aa1.png">
+
 
 # Loop discussion
 
