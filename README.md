@@ -4,7 +4,7 @@
 
 - Description of semester work ✅
 - Conceptual schema ✅
-- Loop discussion (:construction: in process)
+- Loop discussion ✅
 - Relational schema (:construction: in process)
 - Create script (:construction: in process)
 - Insert script (:construction: in process)
@@ -50,3 +50,17 @@ Each of these key fields will be used to search for and filter vacancies, as wel
 # Conceptual schema
 
 <img width="977" alt="Screenshot 2023-03-05 at 20 01 51" src="https://user-images.githubusercontent.com/30218257/222980471-4bf9e8e2-72e5-434d-9ad3-ace35863ae11.png">
+
+# Loop discussion
+
+In our conceptual scheme, **3** loop discussions are created:
+
+1. **Vacancy** -> **Team** -> **Company** -> **Address** -> **Person** -> **Candidate** -> **Vacancy**;
+
+2. **Team** -> **Company** -> **Address** -> **Person** -> **Employee** -> **Team**;
+
+Both the first and second loop create the same problem and **person** and **company** can have the same **address**, but we solved this problem through the XOR operator.
+
+3. **Person** -> **Employee** -> **Team** -> **Vacancy** -> **Candidate** -> **Person**.
+
+This loop does not pose a problem, because we assume that the **employee** can work at the moment but also view other **vacancies** in the market.
