@@ -28,24 +28,75 @@ In addition, a service for parsing vacancies for IT specialists can be useful no
 
 As a result, the service for parsing vacancies for IT specialists is an important tool for modern workers and employers in the IT industry, which can significantly speed up the job search process and improve the efficiency of labor market analysis.
 
-## Key fields on the basis of which the service database will be built:
-
-1. Job title
-2. Vacancy description
-3. City
-4. Region
-5. Salary
-6. Experience level
-7. Category (for example, software development, testing, design, administration)
-8. Type of employment (full-time, part-time, remote work)
-9. Requirements for the candidate (skills, level of education, work experience)
-10. Company (name, description, location, reviews)
-11. Job posting date
-12. Source (website where the job was posted)
-13. Job status (open/closed)
-14. Additional information (contact person, links to additional information about the vacancy).
-
 Each of these key fields will be used to search for and filter vacancies, as well as to generate reports and analyze job market data. For example, the user can select the desired position and city to find a suitable vacancy. Alternatively, the user can analyze candidate requirements data and highlight the skills and technologies that are most in demand.
+
+## Entities on which the database will be based:
+
+1. Vacancy - represent open positions in the company with fields:
+* vacancy_id (unique job ID) serial  
+* job_title (job title) string
+* vacancy_description (vacancy description) text
+* salary (salary) int
+* experience_level (experience level) string
+* type_of_employment (type of employment) string
+* job_posting_date (job posting date) date
+* job_status (job status: open/closed) boolean
+
+The essence of the vacancy will be associated with candidates, many candidates can apply for one vacancy, just as one candidate can apply for several vacancies.
+If there is a vacancy, then it should be tied to a specific team, but also the team may not need an employee/employees.
+
+2. Candidate - potential job seekers who apply for vacancies, with fields:
+* job_title (job title)  string
+* years_of_experience (experience in years) int
+* category (position category) string
+* description (candidate description) text
+
+To simplify the database, we will create a special **person** table, to which a specific role will be attached, one person - one role (XOR for Person)
+If a candidate exists, it will be in the **person** table anyway.
+
+3. Person - represent the people associated with the Candidate and Employee entities, with the fields:
+* person_id (unique identifier of a person) serial
+* name (name) string
+* surname (surname) string
+* tel (telephone) varchar(50)
+* mail (e-mail) varchar(70)
+
+The **person** table has relationships with the **candidate**, the **employee**, and the **address** where the person lives.
+And if there is a person/candidate/employee, there will definitely be data on residence for him.
+
+4. Employee - people who work for the team, with fields:
+* job_title (job title) string
+* work_tel (work phone) varchar(50)
+* work_mail (work email) varchar(70)
+
+The person whose data is in the **person** table works for a specific **team**, for which they can look for a **candidate**.
+
+5. Team - groups of employees working on specific projects, with fields:
+* team_id (unique team ID) serial 
+* team_name (team name) string
+* team_description (team description) text
+
+We assume that in our **team** table there may be a team that does not need **candidates** (**employees**), the team works for a specific **company**.
+If there is a team, then there is a company and if there is a company, then there is a team.
+Certain **employees** work/work for the **team**, and if there is a  **team**, then there must be an **employee** of this **team**, and vice versa.
+
+6. Company - organizations that use the system, with fields:
+* company_id (unique company ID) serial
+* company_name (company name) string
+* company_description (company description) text
+
+Suppose a company cannot operate without a team(s) (read above) and also the company must be located somewhere, for this data there is a table of **address** to which the company table and the **person** table refer.
+
+7. Address - the location of the company's offices and the residence of people associated with the system, with the fields:
+* address_id (unique address identifier) serial
+* address_type (address type: work/home) string
+* country (country) string
+* city (city) string
+* street (street) string
+* house (house) int
+* index (zip code) int
+
+**Address** table, which contains data about the addresses of **companies** and addresses of **employees/candidates**.
 
 # Conceptual schema
 
