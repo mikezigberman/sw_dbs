@@ -8,8 +8,8 @@
 - Relational schema (:construction: in process)
 - Create script (:construction: in process)
 - Insert script (:construction: in process)
-- Queries (:construction: in process)
-- Categories covered by queries (:construction: in process)
+- Queries ✅
+- Categories covered by queries ✅
     - Category	
     - Description	
     - Covered by
@@ -116,3 +116,32 @@ Both the first and second loop create the same problem and **person** and **comp
 3. **Person** -> **Employee** -> **Team** -> **Vacancy** -> **Candidate** -> **Person**.
 
 This loop does not pose a problem, because we assume that the **employee** can work at the moment but also view other **vacancies** in the market.
+
+# Queries
+
+#### Select all employees working in the artificial intelligence team;
+
+#### Select employees working in the company starting with the letter "A";
+
+#### Select from the table with candidates those whose experience is more than 2 years;
+
+#### Select to me the vacancies for which a person with id 213 applied and for which no one else applied; ![](https://img.shields.io/badge/-D4-blue)
+
+#### Select me all the vacancies for which all candidates applied; ![](https://img.shields.io/badge/-D5-blue)
+
+#### Select company_name and company_description from the Company table where company_id is 5;
+
+#### Select job_title and experience_level from the Vacancy table where salary is greater than 50000;
+
+#### Select job_title and salary from the Vacancy table where job_status is open;
+
+#### Select all fields from the Vacancy and Candidate tables where the vacancy is related to a specific candidate with experience greater than 3 years and salary greater than 50000;
+
+#### Select job_title and work_mail from the Employee table where job_title is 'Manager';
+
+## Categories covered by queries
+
+|  Category  | Description | Covered by |
+|---|---|---|
+| CN | C (NATURAL) - Select only those related to... | ![](https://img.shields.io/badge/-D4-blue) |
+| D1N | D1 (NATURAL) - Select all related to - universal quantification query | ![](https://img.shields.io/badge/-D5-blue) |
