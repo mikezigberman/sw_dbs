@@ -117,6 +117,12 @@ Both the first and second loop create the same problem and **person** and **comp
 
 This loop does not pose a problem, because we assume that the **employee** can work at the moment but also view other **vacancies** in the market.
 
+# Relational schema (:construction: in process)
+
+# Create script (:construction: in process)
+
+# Insert script (:construction: in process)
+
 # Queries
 
 #### Select all employees working in the artificial intelligence team;
@@ -145,3 +151,7 @@ This loop does not pose a problem, because we assume that the **employee** can w
 |---|---|---|
 | CN | C (NATURAL) - Select only those related to... | ![](https://img.shields.io/badge/-D4-blue) |
 | D1N | D1 (NATURAL) - Select all related to - universal quantification query | ![](https://img.shields.io/badge/-D5-blue) |
+
+# Conclusion (:construction: in process)
+
+# References (:construction: in process)
