@@ -15,6 +15,7 @@
     - Covered by
 - Conclusion (:construction: in process)
 - References (:construction: in process)
+- Iteration Score
 
 # Description
 
@@ -155,3 +156,8 @@ This loop does not pose a problem, because we assume that the **employee** can w
 # Conclusion (:construction: in process)
 
 # References (:construction: in process)
+
+# Iteration Score:
+
+<img width="470" alt="Screenshot 2023-03-19 at 17 38 58" src="https://user-images.githubusercontent.com/30218257/226191113-1aad6d88-4f8c-414b-b28a-e456f607b6f7.png">
+
