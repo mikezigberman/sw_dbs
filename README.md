@@ -99,10 +99,29 @@ Suppose a company cannot operate without a team(s) (read above) and also the com
 
 **Address** table, which contains data about the addresses of **companies** and addresses of **employees/candidates**.
 
+8. Certification - represents any professional certifications held by a candidate, with fields:
+* certification_id (unique certification identifier) serial
+* certification_name (name of the certification) string
+* certifying_organization (organization that issued the certification) string
+* certification_date (date the certification was obtained) date
+
+The **Certification** table is associated with the **Candidate** table and represents a list of professional certifications held by a candidate. **Candidates** can hold multiple certifications, and each certification can be held by multiple candidates.
+
+9. City - represents a city with fields:
+* id_city (unique city ID) serial
+* city_name (city name) string
+
+The **City** table represents a list of cities that are referenced by the **Address** table.
+
+10. Country - represents a country with fields:
+* id_country (unique country ID) serial
+* country_name (country name) string
+
+The **Country** table represents a list of countries that are referenced by the **Address** table.
+
 # Conceptual schema
 
-<img width="1015" alt="Screenshot 2023-03-10 at 20 55 45" src="https://user-images.githubusercontent.com/30218257/224415217-db59c443-1f52-4aa9-9424-157409312aa1.png">
-
+<img width="1019" alt="Screenshot 2023-04-12 at 18 34 09" src="https://user-images.githubusercontent.com/30218257/231523447-54de2145-b6bb-45ad-8cff-d9f5f4ee9f60.png">
 
 # Loop discussion
 
@@ -159,5 +178,10 @@ This loop does not pose a problem, because we assume that the **employee** can w
 
 # Iteration Score:
 
-<img width="470" alt="Screenshot 2023-03-19 at 17 38 58" src="https://user-images.githubusercontent.com/30218257/226191113-1aad6d88-4f8c-414b-b28a-e456f607b6f7.png">
+|  The first iteration  | The second iteration | The third iteration |
+|---|---|---|
+| <img width="375" alt="Screenshot 2023-04-12 at 18 35 35" src="https://user-images.githubusercontent.com/30218257/231523760-77783389-cb77-4cf0-947b-d08c69468051.png"> | <img width="373" alt="Screenshot 2023-04-12 at 18 36 26" src="https://user-images.githubusercontent.com/30218257/231523959-e47c1ebf-a43f-439b-a5ea-c555b3c7523f.png"> | (:construction: in process) |
+
+
+
 
