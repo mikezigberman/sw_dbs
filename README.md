@@ -6,7 +6,7 @@
 - Conceptual schema ✅
 - Loop discussion ✅
 - Relational schema ✅
-- Create script (:construction: in process)
+- Create script ✅
 - Insert script (:construction: in process)
 - Queries ✅
 - Categories covered by queries ✅
@@ -141,7 +141,257 @@ This loop does not pose a problem, because we assume that the **employee** can w
 
 <img width="1095" alt="original" src="https://user-images.githubusercontent.com/30218257/234678715-0244f5d1-265e-4744-a88d-7ee42f11fa2b.png">
 
-# Create script (:construction: in process)
+# Create script
+
+```
+-- odeberu pokud existuje funkce na oodebrání tabulek a sekvencí
+DROP FUNCTION IF EXISTS remove_all();
+
+-- vytvořím funkci která odebere tabulky a sekvence
+-- chcete také umět psát PLSQL? Zapište si předmět BI-SQL ;-)
+CREATE or replace FUNCTION remove_all() RETURNS void AS $$
+DECLARE
+    rec RECORD;
+    cmd text;
+BEGIN
+    cmd := '';
+
+    FOR rec IN SELECT
+            'DROP SEQUENCE ' || quote_ident(n.nspname) || '.'
+                || quote_ident(c.relname) || ' CASCADE;' AS name
+        FROM
+            pg_catalog.pg_class AS c
+        LEFT JOIN
+            pg_catalog.pg_namespace AS n
+        ON
+            n.oid = c.relnamespace
+        WHERE
+            relkind = 'S' AND
+            n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+            pg_catalog.pg_table_is_visible(c.oid)
+    LOOP
+        cmd := cmd || rec.name;
+    END LOOP;
+
+    FOR rec IN SELECT
+            'DROP TABLE ' || quote_ident(n.nspname) || '.'
+                || quote_ident(c.relname) || ' CASCADE;' AS name
+        FROM
+            pg_catalog.pg_class AS c
+        LEFT JOIN
+            pg_catalog.pg_namespace AS n
+        ON
+            n.oid = c.relnamespace WHERE relkind = 'r' AND
+            n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+            pg_catalog.pg_table_is_visible(c.oid)
+    LOOP
+        cmd := cmd || rec.name;
+    END LOOP;
+
+    EXECUTE cmd;
+    RETURN;
+END;
+$$ LANGUAGE plpgsql;
+-- zavolám funkci co odebere tabulky a sekvence - Mohl bych dropnout celé 
+-- schéma a znovu jej vytvořit, použíjeme však PLSQL
+select remove_all();
+-- odeberu pokud existuje funkce na oodebrání tabulek a sekvencí
+DROP FUNCTION IF EXISTS remove_all();
+
+-- vytvořím funkci která odebere tabulky a sekvence
+-- chcete také umět psát PLSQL? Zapište si předmět BI-SQL ;-)
+CREATE or replace FUNCTION remove_all() RETURNS void AS $$
+DECLARE
+    rec RECORD;
+    cmd text;
+BEGIN
+    cmd := '';
+
+    FOR rec IN SELECT
+            'DROP SEQUENCE ' || quote_ident(n.nspname) || '.'
+                || quote_ident(c.relname) || ' CASCADE;' AS name
+        FROM
+            pg_catalog.pg_class AS c
+        LEFT JOIN
+            pg_catalog.pg_namespace AS n
+        ON
+            n.oid = c.relnamespace
+        WHERE
+            relkind = 'S' AND
+            n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+            pg_catalog.pg_table_is_visible(c.oid)
+    LOOP
+        cmd := cmd || rec.name;
+    END LOOP;
+
+    FOR rec IN SELECT
+            'DROP TABLE ' || quote_ident(n.nspname) || '.'
+                || quote_ident(c.relname) || ' CASCADE;' AS name
+        FROM
+            pg_catalog.pg_class AS c
+        LEFT JOIN
+            pg_catalog.pg_namespace AS n
+        ON
+            n.oid = c.relnamespace WHERE relkind = 'r' AND
+            n.nspname NOT IN ('pg_catalog', 'pg_toast') AND
+            pg_catalog.pg_table_is_visible(c.oid)
+    LOOP
+        cmd := cmd || rec.name;
+    END LOOP;
+
+    EXECUTE cmd;
+    RETURN;
+END;
+$$ LANGUAGE plpgsql;
+-- zavolám funkci co odebere tabulky a sekvence - Mohl bych dropnout celé 
+-- schéma a znovu jej vytvořit, použíjeme však PLSQL
+select remove_all();
+
+CREATE TABLE address (
+    address_id SERIAL NOT NULL,
+    id_city INTEGER NOT NULL,
+    street VARCHAR(80) NOT NULL,
+    house DECIMAL(10, 0) NOT NULL,
+    index DECIMAL(10, 0) NOT NULL
+);
+ALTER TABLE address ADD CONSTRAINT pk_address PRIMARY KEY (address_id);
+
+CREATE TABLE candidate (
+    person_id INTEGER NOT NULL,
+    job_title VARCHAR(256) NOT NULL,
+    years_of_experience INTEGER NOT NULL,
+    category VARCHAR(256) NOT NULL,
+    description TEXT NOT NULL
+);
+ALTER TABLE candidate ADD CONSTRAINT pk_candidate PRIMARY KEY (person_id);
+
+CREATE TABLE certification (
+    certification_id SERIAL NOT NULL,
+    certification_name VARCHAR(256) NOT NULL,
+    certifying_organization VARCHAR(256) NOT NULL,
+    certification_date VARCHAR(256) NOT NULL
+);
+ALTER TABLE certification ADD CONSTRAINT pk_certification PRIMARY KEY 
+(certification_id);
+
+CREATE TABLE city (
+    id_city SERIAL NOT NULL,
+    id_country INTEGER NOT NULL,
+    city_name VARCHAR(256) NOT NULL
+);
+ALTER TABLE city ADD CONSTRAINT pk_city PRIMARY KEY (id_city);
+
+CREATE TABLE company (
+    company_id SERIAL NOT NULL,
+    address_id INTEGER NOT NULL,
+    company_name VARCHAR(70) NOT NULL,
+    company_description TEXT
+);
+ALTER TABLE company ADD CONSTRAINT pk_company PRIMARY KEY (company_id);
+ALTER TABLE company ADD CONSTRAINT u_fk_company_address UNIQUE 
+(address_id);
+
+CREATE TABLE country (
+    id_country SERIAL NOT NULL,
+    country_name VARCHAR(256) NOT NULL
+);
+ALTER TABLE country ADD CONSTRAINT pk_country PRIMARY KEY (id_country);
+
+CREATE TABLE employee (
+    person_id INTEGER NOT NULL,
+    job_title CHAR(70) NOT NULL,
+    work_tel TEXT,
+    work_mail VARCHAR(256)
+);
+ALTER TABLE employee ADD CONSTRAINT pk_employee PRIMARY KEY (person_id);
+
+CREATE TABLE person (
+    person_id SERIAL NOT NULL,
+    address_id INTEGER NOT NULL,
+    name VARCHAR(256) NOT NULL,
+    surname VARCHAR(256) NOT NULL,
+    tel TEXT NOT NULL,
+    mail VARCHAR(256) NOT NULL
+);
+ALTER TABLE person ADD CONSTRAINT pk_person PRIMARY KEY (person_id);
+ALTER TABLE person ADD CONSTRAINT u_fk_person_address UNIQUE (address_id);
+
+CREATE TABLE team (
+    team_id SERIAL NOT NULL,
+    person_id INTEGER NOT NULL,
+    company_id INTEGER NOT NULL,
+    team_name VARCHAR(70) NOT NULL,
+    command_description TEXT NOT NULL
+);
+ALTER TABLE team ADD CONSTRAINT pk_team PRIMARY KEY (team_id);
+
+CREATE TABLE vacancy (
+    vacancy_id SERIAL NOT NULL,
+    team_id INTEGER NOT NULL,
+    job_title CHAR(128) NOT NULL,
+    vacancy_description TEXT,
+    salary money,
+    experience_level VARCHAR(256),
+    type_of_employment VARCHAR(256) NOT NULL,
+    job_posting_date DATE NOT NULL,
+    job_status VARCHAR(10) NOT NULL
+);
+ALTER TABLE vacancy ADD CONSTRAINT pk_vacancy PRIMARY KEY (vacancy_id);
+
+CREATE TABLE certification_candidate (
+    certification_id INTEGER NOT NULL,
+    person_id INTEGER NOT NULL
+);
+ALTER TABLE certification_candidate ADD CONSTRAINT 
+pk_certification_candidate PRIMARY KEY (certification_id, person_id);
+
+CREATE TABLE vacancy_candidate (
+    vacancy_id INTEGER NOT NULL,
+    person_id INTEGER NOT NULL
+);
+ALTER TABLE vacancy_candidate ADD CONSTRAINT pk_vacancy_candidate PRIMARY 
+KEY (vacancy_id, person_id);
+
+ALTER TABLE address ADD CONSTRAINT fk_address_city FOREIGN KEY (id_city) 
+REFERENCES city (id_city) ON DELETE CASCADE;
+
+ALTER TABLE candidate ADD CONSTRAINT fk_candidate_person FOREIGN KEY 
+(person_id) REFERENCES person (person_id) ON DELETE CASCADE;
+
+ALTER TABLE city ADD CONSTRAINT fk_city_country FOREIGN KEY (id_country) 
+REFERENCES country (id_country) ON DELETE CASCADE;
+
+ALTER TABLE company ADD CONSTRAINT fk_company_address FOREIGN KEY 
+(address_id) REFERENCES address (address_id) ON DELETE CASCADE;
+
+ALTER TABLE employee ADD CONSTRAINT fk_employee_person FOREIGN KEY 
+(person_id) REFERENCES person (person_id) ON DELETE CASCADE;
+
+ALTER TABLE person ADD CONSTRAINT fk_person_address FOREIGN KEY 
+(address_id) REFERENCES address (address_id) ON DELETE CASCADE;
+
+ALTER TABLE team ADD CONSTRAINT fk_team_employee FOREIGN KEY (person_id) 
+REFERENCES employee (person_id) ON DELETE CASCADE;
+ALTER TABLE team ADD CONSTRAINT fk_team_company FOREIGN KEY (company_id) 
+REFERENCES company (company_id) ON DELETE CASCADE;
+
+ALTER TABLE vacancy ADD CONSTRAINT fk_vacancy_team FOREIGN KEY (team_id) 
+REFERENCES team (team_id) ON DELETE CASCADE;
+
+ALTER TABLE certification_candidate ADD CONSTRAINT 
+fk_certification_candidate_cert FOREIGN KEY (certification_id) REFERENCES 
+certification (certification_id) ON DELETE CASCADE;
+ALTER TABLE certification_candidate ADD CONSTRAINT 
+fk_certification_candidate_cand FOREIGN KEY (person_id) REFERENCES 
+candidate (person_id) ON DELETE CASCADE;
+
+ALTER TABLE vacancy_candidate ADD CONSTRAINT fk_vacancy_candidate_vacancy 
+FOREIGN KEY (vacancy_id) REFERENCES vacancy (vacancy_id) ON DELETE 
+CASCADE;
+ALTER TABLE vacancy_candidate ADD CONSTRAINT 
+fk_vacancy_candidate_candidate FOREIGN KEY (person_id) REFERENCES 
+candidate (person_id) ON DELETE CASCADE;
+```
 
 # Insert script (:construction: in process)
 
