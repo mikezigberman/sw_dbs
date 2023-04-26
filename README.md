@@ -7,13 +7,13 @@
 - Loop discussion ✅
 - Relational schema ✅
 - Create script ✅
-- Insert script (:construction: in process)
+- Insert script ✅
 - Queries ✅
 - Categories covered by queries ✅
     - Category	
     - Description	
     - Covered by
-- References 
+- References ✅
 - Iteration Score
 
 # Description
@@ -392,7 +392,163 @@ fk_vacancy_candidate_candidate FOREIGN KEY (person_id) REFERENCES
 candidate (person_id) ON DELETE CASCADE;
 ```
 
-# Insert script (:construction: in process)
+# Insert script 
+
+```
+-- smazání všech záznamů z tabulek
+
+CREATE or replace FUNCTION clean_tables() RETURNS void AS $$
+declare
+  l_stmt text;
+begin
+  select 'truncate ' || string_agg(format('%I.%I', schemaname, tablename) , ',')
+    into l_stmt
+  from pg_tables
+  where schemaname in ('public');
+
+  execute l_stmt || ' cascade';
+end;
+$$ LANGUAGE plpgsql;
+select clean_tables();
+
+-- reset sekvenci
+
+CREATE or replace FUNCTION restart_sequences() RETURNS void AS $$
+DECLARE
+i TEXT;
+BEGIN
+ FOR i IN (SELECT column_default FROM information_schema.columns WHERE column_default SIMILAR TO 'nextval%')
+  LOOP
+         EXECUTE 'ALTER SEQUENCE'||' ' || substring(substring(i from '''[a-z_]*')from '[a-z_]+') || ' '||' RESTART 1;';
+  END LOOP;
+END $$ LANGUAGE plpgsql;
+select restart_sequences();
+-- konec resetu
+
+-- konec mazání
+-- mohli bchom použít i jednotlivé příkazy truncate na každo tabulku
+
+-- table country
+
+insert into country (id_country, country_name) values (1, 'Sweden');
+insert into country (id_country, country_name) values (2, 'Canada');
+insert into country (id_country, country_name) values (3, 'Romania');
+...
+insert into country (id_country, country_name) values (197, 'Russia');
+
+-- end of table country
+
+-- city tables
+
+insert into city (id_city, id_country, city_name) values (1, 44, 'Orléans');
+insert into city (id_city, id_country, city_name) values (2, 8, 'Gaizhou');
+insert into city (id_city, id_country, city_name) values (3, 157, 'Gualeguay');
+...
+insert into city (id_city, id_country, city_name) values (500, 194, 'Ishimbay');
+
+-- end of table cities
+
+-- address table
+
+insert into address (address_id, id_city, street, house, index) values (1, 1, 'Oriole', '4', '400830');
+insert into address (address_id, id_city, street, house, index) values (2, 2, 'Buhler', '86859', '090038');
+insert into address (address_id, id_city, street, house, index) values (3, 3, 'Crowley', '4167', '246313');
+...
+insert into address (address_id, id_city, street, house, index) values (500, 500, 'Anthes', '111', '328029');
+
+-- end of table address
+
+-- table person
+
+insert into person (person_id, address_id, name, surname, tel, mail) values (1, 1, 'Ilsa', 'Longina', '+52 (160) 102-0126', 'ilongina0@gmpg.org');
+insert into person (person_id, address_id, name, surname, tel, mail) values (2, 2, 'Chalmers', 'Brokenshaw', '+58 (432) 882-0277', 'cbrokenshaw1@sakura.ne.jp');
+insert into person (person_id, address_id, name, surname, tel, mail) values (3, 3, 'Aidan', 'Brassington', '+86 (119) 643-0783', 'abrassington2@shutterfly.com');
+...
+insert into person (person_id, address_id, name, surname, tel, mail) values (500, 500, 'Levin', 'Leyre', '+34 (205) 408-5660', 'lleyredv@yelp.com');
+
+-- end of table persons
+
+-- employee table
+
+insert into employee (person_id, job_title, work_tel, work_mail) values (1, 'Financial Advisor', '+55 (330) 423-5956', 'orowcliffe0@mtv.com');
+insert into employee (person_id, job_title, work_tel, work_mail) values (2, 'Occupational Therapist', '+355 (664) 170-8373', 'eoselton1@epa.gov');
+insert into employee (person_id, job_title, work_tel, work_mail) values (3, 'Nuclear Power Engineer', '+62 (537) 789-4872', 'npetrelli2@spotify.com');
+...
+insert into employee (person_id, job_title, work_tel, work_mail) values (500, 'Chief Design Engineer', '+212 (753) 408-4515', 'askyramdv@youtu.be');
+
+-- end of table employees
+
+-- candidate table
+
+insert into candidate (person_id, job_title, years_of_experience, category, description) values (1, 'Engineer III', 3, 'Maecenas rhoncus aliquam lacus.', 'In hac habitasse platea dictumst.');
+insert into candidate (person_id, job_title, years_of_experience, category, description) values (2, 'Accountant IV', 10, 'Donec posuere metus vitae ipsum.', 'Morbi porttitor lorem id ligula.');
+insert into candidate (person_id, job_title, years_of_experience, category, description) values (3, 'Structural Analysis Engineer', 1, 'Nulla facilisi.', 'Aliquam erat volutpat. In congue.');
+...
+insert into candidate (person_id, job_title, years_of_experience, category, description) values (500, 'Paralegal', 18, 'Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Nullam molestie nibh in lectus.');
+
+-- end of candidate table
+
+-- table certification
+
+insert into certification (certification_id, certification_name, certifying_organization, certification_date) values (1, 'ESLT', 'Skinder', '01/07/2022');
+insert into certification (certification_id, certification_name, certifying_organization, certification_date) values (2, 'BEP', 'Ntags', '27/01/2023');
+insert into certification (certification_id, certification_name, certifying_organization, certification_date) values (3, 'DD^B', 'Vidoo', '05/02/2022');
+...
+insert into certification (certification_id, certification_name, certifying_organization, certification_date) values (500, 'NTRS', 'Yakitri', '28/10/2022');
+
+-- end of table certificates
+
+-- company table
+
+insert into company (company_id, address_id, company_name, company_description) values (1, 1, 'Jabbersphere', 'Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula.');
+insert into company (company_id, address_id, company_name, company_description) values (2, 2, 'Skiptube', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.');
+insert into company (company_id, address_id, company_name, company_description) values (3, 3, 'Realmix', 'Quisque ut erat. Curabitur gravida nisi at nibh.');
+...
+insert into company (company_id, address_id, company_name, company_description) values (500, 500, 'Vimbo', 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat.');
+
+-- end of company table
+
+-- team table
+
+insert into team (team_id, person_id, company_id, team_name, command_description) values (1, 1, 1, 'Product Management', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante.');
+insert into team (team_id, person_id, company_id, team_name, command_description) values (2, 2, 2, 'Engineering', 'Nulla suscipit ligula in lacus.');
+insert into team (team_id, person_id, company_id, team_name, command_description) values (3, 3, 3, 'Accounting', 'Integer a nibh.');
+...
+insert into team (team_id, person_id, company_id, team_name, command_description) values (500, 500, 500, 'Product Management', 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl.');
+
+-- command table end
+
+-- vacancy table
+
+insert into vacancy (vacancy_id, team_id, job_title, vacancy_description, salary, experience_level, type_of_employment, job_posting_date, job_status) values (1, 1, 'Actuary', 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', '$272899.56', 3, 'Contract', '2022/02/12', 'Open');
+insert into vacancy (vacancy_id, team_id, job_title, vacancy_description, salary, experience_level, type_of_employment, job_posting_date, job_status) values (2, 2, 'Chief Design Engineer', 'Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus.', '$437508.54', 18, 'Part-time', '2020/04/29', 'Close');
+insert into vacancy (vacancy_id, team_id, job_title, vacancy_description, salary, experience_level, type_of_employment, job_posting_date, job_status) values (3, 3, 'Social Worker', 'Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', '$775156.73', 8, 'Full-time', '2020/10/27', 'Close');
+...
+insert into vacancy (vacancy_id, team_id, job_title, vacancy_description, salary, experience_level, type_of_employment, job_posting_date, job_status) values (500, 500, 'Chemical Engineer', 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo.', '$99831.73', 16, 'Part-time', '2021/10/11', 'Close');
+
+-- end of vacancy table
+
+-- vacancy_candidate table
+
+insert into vacancy_candidate (vacancy_id, person_id) values (1, 1);
+insert into vacancy_candidate (vacancy_id, person_id) values (2, 2);
+insert into vacancy_candidate (vacancy_id, person_id) values (3, 3);
+...
+insert into vacancy_candidate (vacancy_id, person_id) values (500, 500);
+
+-- end of vacancy_candidate table
+
+-- certification_candidate table
+
+insert into certification_candidate (certification_id, person_id) values (1, 1);
+insert into certification_candidate (certification_id, person_id) values (2, 2);
+insert into certification_candidate (certification_id, person_id) values (3, 3);
+...
+insert into certification_candidate (certification_id, person_id) values (500, 500);
+
+-- end of certification_candidate table
+
+```
 
 # Queries
 
@@ -447,7 +603,3 @@ candidate (person_id) ON DELETE CASCADE;
 |  The first iteration  | The second iteration | The third iteration |
 |---|---|---|
 | <img width="375" alt="Screenshot 2023-04-12 at 18 35 35" src="https://user-images.githubusercontent.com/30218257/231523760-77783389-cb77-4cf0-947b-d08c69468051.png"> | <img width="373" alt="Screenshot 2023-04-12 at 18 36 26" src="https://user-images.githubusercontent.com/30218257/231523959-e47c1ebf-a43f-439b-a5ea-c555b3c7523f.png"> | (:construction: in process) |
-
-
-
-
