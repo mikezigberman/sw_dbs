@@ -13,8 +13,7 @@
     - Category	
     - Description	
     - Covered by
-- Conclusion (:construction: in process)
-- References (:construction: in process)
+- References 
 - Iteration Score
 
 # Description
@@ -424,9 +423,24 @@ candidate (person_id) ON DELETE CASCADE;
 | CN | C (NATURAL) - Select only those related to... | ![](https://img.shields.io/badge/-D4-blue) |
 | D1N | D1 (NATURAL) - Select all related to - universal quantification query | ![](https://img.shields.io/badge/-D5-blue) |
 
-# Conclusion (:construction: in process)
+# References
 
-# References (:construction: in process)
+**Database Design Books**:
+1. [PostgreSQL MADE EASY: A Beginner's Handbook to easily Learn PostgreSQL](https://www.amazon.com/PostgreSQL-MADE-EASY-Beginners-Programming-ebook/dp/B095V4L3WK/ref=sr_1_25?keywords=postgresql&qid=1680971337&sprefix=Postgre%2Caps%2C214&sr=8-25) by MAGIGE ROBI (Author) 
+2. [Beginning Databases with PostgreSQL: From Novice to Professional (Beginning From Novice to Professional) ](https://www.amazon.com/Beginning-Databases-PostgreSQL-Novice-Professional/dp/1590594789/ref=sr_1_9?keywords=postgresql&qid=1680971197&sprefix=Postgre%2Caps%2C214&sr=8-9) by Richard Stones (Author), Neil Matthew (Author)
+3. [Learn PostgreSQL: Build and manage high-performance database solutions using PostgreSQL 12 and 13](https://www.amazon.com/Learn-PostgreSQL-high-performance-database-solutions/dp/183898528X/ref=sr_1_5?keywords=postgresql&qid=1680971197&sprefix=Postgre%2Caps%2C214&sr=8-5) by Luca Ferrari (Author), Enrico Pirozzi (Author) 
+4. [The Manga Guide to Databases](https://www.amazon.com/Manga-Guide-Databases-Mana-Takahashi/dp/1593271905/ref=sr_1_1?crid=1E7VI7OODCWF8&keywords=Manga+databases&qid=1680970579&sprefix=manga+databases%2Caps%2C235&sr=8-1) by Mana Takahashi (Author), Shoko Azuma (Author), Co Ltd Trend (Author)
+
+**Online courses and video tutorials**:
+1. "Introduction to Relational Databases" on [Coursera](https://www.coursera.org/learn/introduction-to-relational-databases)
+2. "Fundamentals of Database Engineering" at [Udemy](https://www.udemy.com/course/database-engines-crash-course/)
+3. "Databases: Relational Databases and SQL" on [edX](https://www.edx.org/course/databases-5-sql?index=product&queryID=1731b8f95475bcb368ec331588d3cb12&position=4&search_index=product&results_level=first-level-results&campaign=Databases%3A+Relational+Databases+and+SQL&source=edX&product_category=course&placement_url=https%3A%2F%2Fwww.edx.org%2Fsearch)
+
+
+**Websites and blogs**:
+1. 20 Database Design Best Practices at [codebalance.blogspot.com](http://codebalance.blogspot.com/2011/07/20-database-design-best-practices.html)
+2. 11 important database designing rules which I follow at [codeproject.com](https://www.codeproject.com/Articles/359654/11-important-database-designing-rules-which-I-fo-2)
+3. Guide To Design Database For Blog Management In MySQL at [mysql.tutorials24x7.com](https://mysql.tutorials24x7.com/blog/guide-to-design-a-database-for-blog-management-in-mysql)
 
 # Iteration Score:
 
