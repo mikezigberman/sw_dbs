@@ -5,7 +5,7 @@
 - Description of semester work ✅
 - Conceptual schema ✅
 - Loop discussion ✅
-- Relational schema (:construction: in process)
+- Relational schema ✅
 - Create script (:construction: in process)
 - Insert script (:construction: in process)
 - Queries ✅
@@ -137,7 +137,9 @@ Both the first and second loop create the same problem and **person** and **comp
 
 This loop does not pose a problem, because we assume that the **employee** can work at the moment but also view other **vacancies** in the market.
 
-# Relational schema (:construction: in process)
+# Relational schema 
+
+<img width="1095" alt="original" src="https://user-images.githubusercontent.com/30218257/234678715-0244f5d1-265e-4744-a88d-7ee42f11fa2b.png">
 
 # Create script (:construction: in process)
 
