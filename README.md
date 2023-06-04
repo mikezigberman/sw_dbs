@@ -10,11 +10,11 @@
 - Insert script ✅
 - Queries ✅
 - Categories covered by queries ✅
-    - Category	
-    - Description	
-    - Covered by
+    - Category ✅	
+    - Description ✅
+    - Covered by ✅
 - References ✅
-- Iteration Score
+- Iteration Score ✅
 
 # Description
 
