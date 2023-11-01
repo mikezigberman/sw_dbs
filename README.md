@@ -602,4 +602,4 @@ insert into certification_candidate (certification_id, person_id) values (500, 5
 
 |  The first iteration  | The second iteration | The third iteration |
 |---|---|---|
-| <img width="375" alt="Screenshot 2023-04-12 at 18 35 35" src="https://user-images.githubusercontent.com/30218257/231523760-77783389-cb77-4cf0-947b-d08c69468051.png"> | <img width="373" alt="Screenshot 2023-04-12 at 18 36 26" src="https://user-images.githubusercontent.com/30218257/231523959-e47c1ebf-a43f-439b-a5ea-c555b3c7523f.png"> | (:construction: in process) |
+| <img width="490" alt="Screenshot 2023-11-01 at 3 59 54" src="https://github.com/mikezigberman/sw_dbs/assets/30218257/dfec47fd-a80d-40db-9b18-c52007f462ba"> | <img width="488" alt="Screenshot 2023-11-01 at 4 00 23" src="https://github.com/mikezigberman/sw_dbs/assets/30218257/b09f9659-dea4-4e19-b14b-4a35c5b72fa9"> | <img width="489" alt="Screenshot 2023-11-01 at 4 00 50" src="https://github.com/mikezigberman/sw_dbs/assets/30218257/9d8c9021-fdf4-4711-8c3a-ca6a96ae527f"> |
